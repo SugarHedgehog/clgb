@@ -6,13 +6,25 @@
     "crossword",
     "browser"
   ],
+  "homepage": "https://github.com/SugarHedgehog/clgb#readme",
+  "bugs": {
+    "url": "https://github.com/SugarHedgehog/clgb/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SugarHedgehog/clgb.git"
+  },
   "license": "MIT",
   "author": "sugar_hengerhog",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve",
     "build": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
@@ -23,9 +35,5 @@
     "webpack": "^5.101.3",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1"
-  },
-  "dependencies": {
-    "lodash": "^4.17.21",
-    "regenerator-runtime": "^0.14.1"
   }
 }
