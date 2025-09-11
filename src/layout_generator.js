@@ -2,6 +2,8 @@
 // Additional credits: Itay Livni, Michael Blättler
 // MIT License
 
+window.emptySymbol = '-';
+
 // Math functions
 function distance(x1, y1, x2, y2){
   return Math.abs(x1 - x2) + Math.abs(y1 - y2);
@@ -114,10 +116,10 @@ function initTable(rows, cols){
   for(let i = 0; i < rows; i++){
     for(let j = 0; j < cols; j++){
       if(j == 0){
-        table[i] = ["-"];
+        table[i] = [emptySymbol];
       }
       else{
-        table[i][j] = "-";
+        table[i][j] = emptySymbol;
       }
     }
   }
@@ -126,19 +128,19 @@ function initTable(rows, cols){
 }
 
 function isConflict(table, isVertical, character, i, j){
-  if(character != table[i][j] && table[i][j] != "-"){
+  if(character != table[i][j] && table[i][j] != emptySymbol){
     return true;
   }
-  else if(table[i][j] == "-" && !isVertical && (i + 1) in table && table[i + 1][j] != "-"){
+  else if(table[i][j] == emptySymbol && !isVertical && (i + 1) in table && table[i + 1][j] != emptySymbol){
     return true;
   }
-  else if(table[i][j] == "-" && !isVertical && (i - 1) in table && table[i - 1][j] != "-"){
+  else if(table[i][j] == emptySymbol && !isVertical && (i - 1) in table && table[i - 1][j] != emptySymbol){
     return true;
   }
-  else if(table[i][j] == "-" && isVertical && (j + 1) in table[i] && table[i][j + 1] != "-"){
+  else if(table[i][j] == emptySymbol && isVertical && (j + 1) in table[i] && table[i][j + 1] != emptySymbol){
     return true;
   }
-  else if(table[i][j] == "-" && isVertical && (j - 1) in table[i] && table[i][j - 1] != "-"){
+  else if(table[i][j] == emptySymbol && isVertical && (j - 1) in table[i] && table[i][j - 1] != emptySymbol){
     return true
   }
   else{
@@ -165,7 +167,7 @@ function attemptToInsert(rows, cols, table, weights, verticalCount, totalCount, 
           isValid = false;
           break;
         }
-        else if(table[i][j + k] == "-"){
+        else if(table[i][j + k] == emptySymbol){
           prevFlag = false;
           atleastOne = true;
         }
@@ -181,10 +183,10 @@ function attemptToInsert(rows, cols, table, weights, verticalCount, totalCount, 
         }
       }
 
-      if((j - 1) in table[i] && table[i][j - 1] != "-"){
+      if((j - 1) in table[i] && table[i][j - 1] != emptySymbol){
         isValid = false;
       }
-      else if((j + word.length) in table[i] && table[i][j + word.length] != "-"){
+      else if((j + word.length) in table[i] && table[i][j + word.length] != emptySymbol){
         isValid = false;
       }
 
@@ -218,7 +220,7 @@ function attemptToInsert(rows, cols, table, weights, verticalCount, totalCount, 
           isValid = false;
           break;
         }
-        else if(table[i + k][j] == "-"){
+        else if(table[i + k][j] == emptySymbol){
           prevFlag = false;
           atleastOne = true;
         }
@@ -234,10 +236,10 @@ function attemptToInsert(rows, cols, table, weights, verticalCount, totalCount, 
         }
       }
 
-      if((i - 1) in table && table[i - 1][j] != "-"){
+      if((i - 1) in table && table[i - 1][j] != emptySymbol){
         isValid = false;
       }
-      else if((i + word.length) in table && table[i + word.length][j] != "-"){
+      else if((i + word.length) in table && table[i + word.length][j] != emptySymbol){
         isValid = false;
       }
 
@@ -316,7 +318,7 @@ function removeIsolatedWords(data){
       var i = word.starty - 1;
       var j = word.startx - 1;
       for(let k = 0; k < word.answer.length; k++){
-        if(newTable[i][j + k] == "-"){
+        if(newTable[i][j + k] == emptySymbol){
           newTable[i][j + k] = "O";
         }
         else if(newTable[i][j + k] == "O"){
@@ -328,7 +330,7 @@ function removeIsolatedWords(data){
       var i = word.starty - 1;
       var j = word.startx - 1;
       for(let k = 0; k < word.answer.length; k++){
-        if(newTable[i + k][j] == "-"){
+        if(newTable[i + k][j] == emptySymbol){
           newTable[i + k][j] = "O";
         }
         else if(newTable[i + k][j] == "O"){
@@ -405,7 +407,7 @@ function trimTable(data){
 
   for(let i = 0; i < rows; i++){
     for(let j = 0; j < cols; j++){
-      if(table[i][j] != "-"){
+      if(table[i][j] != emptySymbol){
         var x = j;
         var y = i;
 
@@ -472,7 +474,8 @@ function generateSimpleTable(words){
   return finalTable;
 }
 
-export default function generateLayout(words_json){
+export default function generateLayout(words_json, emptySymbol){
+  window.emptySymbol  = emptySymbol || '-';
   var layout = generateSimpleTable(words_json);
   layout.table_string = tableToString(layout.table, "<br>");
   return layout;
